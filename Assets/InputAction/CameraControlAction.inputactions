@@ -1,0 +1,94 @@
+{
+    "name": "CameraControlAction",
+    "maps": [
+        {
+            "name": "Camera",
+            "id": "85f04edd-f1c3-4b1a-81b2-87491f2adecc",
+            "actions": [
+                {
+                    "name": "PanLeft",
+                    "type": "Button",
+                    "id": "0e0b5d93-0d60-442b-b8a7-f70e58281c53",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PanRight",
+                    "type": "Button",
+                    "id": "d9cb0b04-10de-4402-87cb-cbd7c963dc46",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Sprint",
+                    "type": "Button",
+                    "id": "a1f2e518-79d8-416d-9272-6c6fe703de63",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ClickDetect",
+                    "type": "Button",
+                    "id": "57dac18e-a693-4ceb-9947-c4c7e088f4c3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "05bff9f1-5b4a-48ed-9908-48147ad4d4af",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PanLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3388145c-f1a9-4fb2-a6fb-d228eafe617c",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PanRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a413be79-df3c-44cc-b827-8acb01ee6a03",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "405ffbb6-eb0f-4bc5-b923-064cb5a1197d",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ClickDetect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
