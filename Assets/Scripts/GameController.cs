@@ -6,13 +6,39 @@ using UnityEngine;
 public class GameController : MonoBehaviour {
     public bool playerInControl = true; //true for white | false for black
     public GameObject selectedPiece;
-    
+
+    public GameObject kingWhite;
+    public GameObject kingBlack;
 
     public GameObject[,] boardLayout = new GameObject[8, 8];
-    public int[,] dangerLayout = new int[8, 8];
+    public int[,] dangerLayoutWhite = new int[8, 8];
+    public int[,] dangerLayoutBlack = new int[8, 8];
 
     public void initialize() {
+        foreach (GameObject piece in boardLayout) {
+            if (piece != null) {
+                piece.GetComponent<PieceController>().markDangerSpots();
+            }
+        }
 
+        Debug.Log("----------------");
+        Debug.Log("WHITE");
+        for (int x = 7; x >= 0; x--) {
+            string temp = "";
+            for (int y = 7; y >= 0; y--) {
+                temp += dangerLayoutWhite[y, x] + " ";
+            }
+            Debug.Log(temp);
+        }
+
+        Debug.Log("BLACK");
+        for (int x = 7; x >= 0; x--) {
+            string temp = "";
+            for (int y = 7; y >= 0; y--) {
+                temp += dangerLayoutBlack[y, x] + " ";
+            }
+            Debug.Log(temp);
+        }
     }
 
     public void swapControl() {
@@ -31,20 +57,28 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    public bool isDangerSpot(int column, int row) {
-        return dangerLayout[column - 1, row - 1] > 0;
+    public bool isDangerSpot(int column, int row, char pieceColor) {
+        return (pieceColor == 'W' ? dangerLayoutWhite[column - 1, row - 1] : dangerLayoutBlack[column - 1, row - 1]) > 0;
     }
 
-    public void raiseSpotDanger(int column, int row) {
+    public void raiseSpotDanger(int column, int row, char pieceColor) {
         try {
-            dangerLayout[column - 1, row - 1]++;
+            if (pieceColor == 'W') {
+                dangerLayoutWhite[column - 1, row - 1]++;
+            } else {
+                dangerLayoutBlack[column - 1, row - 1]++;
+            }
         }
         catch { return; }
     }
 
-    public void lowerSpotDanger(int column, int row) {
+    public void lowerSpotDanger(int column, int row, char pieceColor) {
         try {
-            dangerLayout[column - 1, row - 1]--;
+            if (pieceColor == 'W') {
+                dangerLayoutWhite[column - 1, row - 1]--;
+            } else {
+                dangerLayoutBlack[column - 1, row - 1]--;
+            }
         } catch { return; }
     }
 

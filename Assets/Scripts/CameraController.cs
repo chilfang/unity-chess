@@ -13,6 +13,8 @@ public class CameraController : MonoBehaviour {
     private bool PanLeftCheck = false;
     private bool PanRightCheck = false;
 
+    private bool firstClick = true;
+
     void Start() {
         if (board == null) {
             board = GameObject.Find("Board");
@@ -45,6 +47,8 @@ public class CameraController : MonoBehaviour {
         if (context.canceled) {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit) && hit.collider != null) {
+                if (firstClick) { gameController.initialize(); firstClick = false; }
+
                 var hitObject = hit.collider.gameObject;
                 if (hitObject == board && gameController.selectedPiece != null) { //board hit while a piece is selected
                     var cordinates = hit.point;
@@ -87,7 +91,7 @@ public class CameraController : MonoBehaviour {
                         pieceController.moveToPosition();
 
                         //switch to other player
-                        //gameController.swapControl();
+                        gameController.swapControl();
                     }
                     
 

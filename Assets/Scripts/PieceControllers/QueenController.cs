@@ -105,7 +105,7 @@ public class QueenController : PieceController {
 
 
         foreach (int[] cordinates in markedDangerSpots) {
-            gameController.raiseSpotDanger(cordinates[0], cordinates[1]);
+            gameController.raiseSpotDanger(cordinates[0], cordinates[1], pieceColor);
         }
     }
 }

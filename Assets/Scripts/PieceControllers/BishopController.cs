@@ -38,7 +38,7 @@ public class BishopController : PieceController {
             return false;
         }
 
-        //make sure target piece is on enemy team
+        //make sure, if there is a target piece, that the target piece is on enemy team
         if (gameController.findPiece(column, row) != null && gameController.findPiece(column, row).GetComponent<PieceController>().pieceColor == pieceColor) { return false; }
 
 
@@ -65,11 +65,8 @@ public class BishopController : PieceController {
             if (gameController.findPiece(column - i, row - i) != null) { break; }
         }
 
-
-
-
         foreach (int[] cordinates in markedDangerSpots) {
-            gameController.raiseSpotDanger(cordinates[0], cordinates[1]);
+            gameController.raiseSpotDanger(cordinates[0], cordinates[1], pieceColor);
         }
     }
 }

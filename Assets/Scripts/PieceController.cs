@@ -50,8 +50,6 @@ public abstract class PieceController : MonoBehaviour {
     }
 
     public virtual void moveToPosition(bool setup = false) {
-        
-
         transform.position = new Vector3(
             board.transform.position.x + (boardSquareSize * 4) - (boardSquareSize * column),
             _y,
@@ -63,10 +61,20 @@ public abstract class PieceController : MonoBehaviour {
             markDangerSpots();
 
             Debug.Log("----------------");
+            Debug.Log("WHITE");
             for (int x = 7; x >= 0; x--) {
                 string temp = "";
                 for (int y = 7; y >= 0; y--) {
-                    temp += gameController.dangerLayout[y, x] + " ";
+                    temp += gameController.dangerLayoutWhite[y, x] + " ";
+                }
+                Debug.Log(temp);
+            }
+
+            Debug.Log("BLACK");
+            for (int x = 7; x >= 0; x--) {
+                string temp = "";
+                for (int y = 7; y >= 0; y--) {
+                    temp += gameController.dangerLayoutBlack[y, x] + " ";
                 }
                 Debug.Log(temp);
             }
@@ -86,11 +94,10 @@ public abstract class PieceController : MonoBehaviour {
     //unmarks all spaces the piece has influence over using gameController.lowerSpotDanger();
     public void unmarkDangerSpots() {
         foreach (int[] cordinates in markedDangerSpots) {
-            gameController.lowerSpotDanger(cordinates[0], cordinates[1]);
+            gameController.lowerSpotDanger(cordinates[0], cordinates[1], pieceColor);
         }
 
         markedDangerSpots.Clear();
-
     }
 
     

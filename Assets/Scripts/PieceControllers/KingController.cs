@@ -6,6 +6,12 @@ public class KingController : PieceController {
     // Start is called before the first frame update
     protected override void Start() {
         base.Start();
+
+        if (pieceColor == 'W') {
+            gameController.kingWhite = gameObject;
+        } else {
+            gameController.kingBlack = gameObject;
+        }
     }
 
     //check if target move is in surrounding squares, then check if that move would put king in check
@@ -34,7 +40,7 @@ public class KingController : PieceController {
             row = this.row;
         }
 
-        return gameController.isDangerSpot(column, row);
+        return gameController.isDangerSpot(column, row, pieceColor);
     }
 
     public override void markDangerSpots() {
@@ -45,7 +51,7 @@ public class KingController : PieceController {
         for (int i = 0; i < 3; i++) { markedDangerSpots.Add(new int[] { column - 1, row - 1 + i }); } //right side
 
         foreach (int[] cordinates in markedDangerSpots) {
-            gameController.raiseSpotDanger(cordinates[0], cordinates[1]);
+            gameController.raiseSpotDanger(cordinates[0], cordinates[1], pieceColor);
         }
     }
 }
