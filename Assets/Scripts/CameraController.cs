@@ -73,38 +73,54 @@ public class CameraController : MonoBehaviour {
                     cordinates[0] -= 9;
                     cordinates[0] *= -1;
 
-
+                    
                     //make sure cordinates are within limits
                     if (cordinates[0] > 8) { cordinates[0] = 8; }
                     if (cordinates[2] > 8) { cordinates[2] = 8; }
                     if (cordinates[0] < 1) { cordinates[0] = 1; }
                     if (cordinates[2] < 1) { cordinates[2] = 1; }
 
-                    //if the selected square is a valid move for the selected piece
-                    if (gameController.selectedPiece.GetComponent<PieceController>().isValidMove((int) cordinates[0], (int) cordinates[2])) {
-                        var pieceController = gameController.selectedPiece.GetComponent<PieceController>();
-                        //give piece new cordinates
 
-                        gameController.recordPieceMove(gameController.selectedPiece, pieceController.column, pieceController.row, (int) cordinates[0], (int) cordinates[2]);
 
+                    var pieceController = gameController.selectedPiece.GetComponent<PieceController>();
+                    //Do checks and record move
+                    if (gameController.recordPieceMove(gameController.selectedPiece, pieceController.column, pieceController.row, (int) cordinates[0], (int) cordinates[2])) {
                         //run piece move function
                         pieceController.moveToPosition();
 
                         //switch to other player
                         gameController.swapControl();
+
+                        /* too much work
+                        //check if king in check
+                        KingController kingPiece = (gameController.playerInControl ? gameController.kingWhite : gameController.kingBlack).GetComponent<KingController>();
+                        if (kingPiece.inCheck()) {
+
+                            //check if king in checkmate
+                            for (int x = 0; x < 3; x++) {
+                                for (int y = 0; y < 3; y++) {
+                                    if (gameController.findPiece(kingPiece.column - 1 + x, kingPiece.row - 1 + y) != null) { continue; }
+                                    if (!kingPiece.inCheck(kingPiece.column - 1 + x, kingPiece.row - 1 + y)) {
+                                        kingPiece.RedHighlightToggle();
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                        */
                     }
                     
 
 
                 } else if (hitObject.GetComponent<Rigidbody>() != null) { //piece hit
-                    
+                    //hitObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1, 0) * hitObject.GetComponent<Rigidbody>().mass * 8, ForceMode.Impulse);
 
-                    hitObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1, 0) * hitObject.GetComponent<Rigidbody>().mass * 8, ForceMode.Impulse);
+                    if ((hitObject.GetComponent<PieceController>().pieceColor == 'W') == gameController.playerInControl) {
+                        if (gameController.selectedPiece != null) { gameController.selectedPiece.GetComponent<PieceController>().HighlightToggle(); }
+                        hitObject.GetComponent<PieceController>().HighlightToggle();
 
-                    if(gameController.selectedPiece != null) {gameController.selectedPiece.GetComponent<PieceController>().HighlightToggle();}
-                    hitObject.GetComponent<PieceController>().HighlightToggle();
-
-                    gameController.selectedPiece = hitObject;
+                        gameController.selectedPiece = hitObject;
+                    }
                 }
             }
 

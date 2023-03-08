@@ -21,14 +21,13 @@ public class KingController : PieceController {
         if (isCurrentSquare(column, row)) { return false; }
 
         //make sure target square is in surrounding squares
-        if (Mathf.Abs(this.column - column) > 2 || Mathf.Abs(this.row - row) > 2) { return false; }
+        if (Mathf.Abs(this.column - column) > 1 || Mathf.Abs(this.row - row) > 1) { return false; }
 
         //if there is a piece on the target square, make sure it is on enemy team
         if (gameController.findPiece(column, row) != null && gameController.findPiece(column, row).GetComponent<PieceController>().pieceColor == pieceColor) { return false; }
 
         //make sure target square would not put king in check
         if (inCheck(column, row)) { return false; }
-
 
         //no faults found, move is valid
         return true;

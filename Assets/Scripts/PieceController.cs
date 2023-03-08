@@ -14,6 +14,8 @@ public abstract class PieceController : MonoBehaviour {
     public char pieceColor;
 
     private Material defaultMaterial;
+    private Material highlightMaterial;
+    private Material redHighlightMaterial;
 
     protected List<int[]> markedDangerSpots;
 
@@ -32,6 +34,8 @@ public abstract class PieceController : MonoBehaviour {
         pieceColor = meshName[meshName.IndexOf('.') + 1];
 
         defaultMaterial = gameObject.GetComponent<Renderer>().material;
+        highlightMaterial = Resources.Load<Material>("Materials/HighlightLight");
+        redHighlightMaterial = Resources.Load<Material>("Materials/HightlightRed");
 
         gameController.boardLayout[column - 1, row - 1] = gameObject;
 
@@ -42,11 +46,30 @@ public abstract class PieceController : MonoBehaviour {
     }
 
     public void HighlightToggle() {
-        if (gameObject.GetComponent<Renderer>().material == defaultMaterial) {
-            gameObject.GetComponent<Renderer>().material = Resources.Load<Material>("Materials/HighlightLight");
-        } else {
+        if (gameObject.GetComponent<Renderer>().material == highlightMaterial) {
             gameObject.GetComponent<Renderer>().material = defaultMaterial;
+        } else {
+            gameObject.GetComponent<Renderer>().material = highlightMaterial;
+
+            if (gameObject.GetComponent<Renderer>().material != highlightMaterial) {
+                highlightMaterial = gameObject.GetComponent<Renderer>().material;
+            }
         }
+        
+    }
+
+    public void RedHighlightToggle() {
+        if (gameObject.GetComponent<Renderer>().material == redHighlightMaterial) {
+            gameObject.GetComponent<Renderer>().material = defaultMaterial;
+        } else {
+            gameObject.GetComponent<Renderer>().material = redHighlightMaterial;
+
+
+            if (gameObject.GetComponent<Renderer>().material != redHighlightMaterial) {
+                redHighlightMaterial = gameObject.GetComponent<Renderer>().material;
+            }
+        }
+
     }
 
     public virtual void moveToPosition(bool setup = false) {
@@ -57,6 +80,8 @@ public abstract class PieceController : MonoBehaviour {
         );
 
         if (!setup) {
+            gameController.reCalculateDangers();
+            /*
             unmarkDangerSpots();
             markDangerSpots();
 
@@ -80,7 +105,7 @@ public abstract class PieceController : MonoBehaviour {
             }
 
             Debug.Log(gameObject);
-            
+            */
         }
     }
 

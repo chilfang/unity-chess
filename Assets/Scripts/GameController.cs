@@ -15,8 +15,13 @@ public class GameController : MonoBehaviour {
     public int[,] dangerLayoutBlack = new int[8, 8];
 
     public void initialize() {
+        
+    }
+
+    public void reCalculateDangers() {
         foreach (GameObject piece in boardLayout) {
             if (piece != null) {
+                piece.GetComponent<PieceController>().unmarkDangerSpots();
                 piece.GetComponent<PieceController>().markDangerSpots();
             }
         }
@@ -44,9 +49,12 @@ public class GameController : MonoBehaviour {
     public void swapControl() {
         playerInControl = !playerInControl;
         Debug.Log(playerInControl ? "White's Turn Starts" : "Black's Turn Starts");
-        selectedPiece = null;
 
         if (selectedPiece != null) { selectedPiece.GetComponent<PieceController>().HighlightToggle(); }
+
+
+
+        selectedPiece = null;
     }
 
     public GameObject findPiece(int column, int row) {
@@ -58,7 +66,7 @@ public class GameController : MonoBehaviour {
     }
 
     public bool isDangerSpot(int column, int row, char pieceColor) {
-        return (pieceColor == 'W' ? dangerLayoutWhite[column - 1, row - 1] : dangerLayoutBlack[column - 1, row - 1]) > 0;
+        return (pieceColor == 'W' ? dangerLayoutBlack[column - 1, row - 1] : dangerLayoutWhite[column - 1, row - 1]) > 0;
     }
 
     public void raiseSpotDanger(int column, int row, char pieceColor) {
@@ -82,12 +90,30 @@ public class GameController : MonoBehaviour {
         } catch { return; }
     }
 
-    public void recordPieceMove(GameObject piece, int oldColumn, int oldRow, int newColumn, int newRow) {
+    public bool recordPieceMove(GameObject piece, int oldColumn, int oldRow, int newColumn, int newRow) {
         boardLayout[oldColumn - 1, oldRow - 1] = null;
+
+        reCalculateDangers();
+
+        if (!piece.GetComponent<PieceController>().isValidMove(newColumn, newRow)) {
+            boardLayout[oldColumn - 1, oldRow - 1] = piece;
+            return false;
+        }
+
+        if (findPiece(newColumn, newRow) != null) { Destroy(findPiece(newColumn, newRow)); }
+            
+
+        /*
+        var pieceHolder = gameController.boardLayout[(int) cordinates[0], (int) cordinates[2]];
+        gameController.boardLayout[(int) cordinates[0], (int) cordinates[2]] = null;
+        gameController.reCalculateDangers();
+        */
 
         piece.GetComponent<PieceController>().column = newColumn;
         piece.GetComponent<PieceController>().row = newRow;
 
         boardLayout[newColumn - 1, newRow - 1] = piece;
+
+        return true;
     }
 }
